@@ -49,7 +49,49 @@ const MyParcel = () => {
         setSelectedParcel(null);
     };
 
- 
+    const handleCancel = (id) => {
+        const parcelToCancel = cartItems.find(item => item._id === id);
+
+        if (parcelToCancel.status === 'pending') {
+            Swal.fire({
+                title: 'Are you sure you want to cancel this booking?',
+                text: 'This action cannot be undone!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, cancel it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`http://localhost:5000/parcel/cancel/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(parcelToCancel)
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.modifiedCount === 1) {
+                            const updatedItems = cartItems.map(item =>
+                                item._id === id ? { ...item, status: 'cancel' } : item
+                            );
+                            setCartItems(updatedItems);
+                            Swal.fire('Cancelled!', 'Your booking has been cancelled.', 'success');
+                        } else {
+                            Swal.fire('Error!', 'Failed to cancel the booking.', 'error');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        Swal.fire('Error!', 'Failed to cancel the booking.', 'error');
+                    });
+                }
+            });
+        } else {
+            Swal.fire('Unable to Cancel', 'Only Pending booking Status Can be Cancel.', 'error');
+        }
+    };
 
 
     return (
