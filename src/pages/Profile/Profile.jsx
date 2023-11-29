@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
-
-
   return (
     <div className="max-w-4xl mx-auto">
       <div className="relative flex flex-col text-gray-700 bg-white shadow-md w-96 rounded-xl bg-clip-border">

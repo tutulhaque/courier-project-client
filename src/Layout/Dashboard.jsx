@@ -5,6 +5,7 @@ import useDeliverMen from "../hooks/useDeliverMen";
 import useUsers from "../hooks/useUsers";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import AdminStatistics from "../pages/Dashboard/Statistics/AdminStatistics";
 
 
 const Dashboard = () => {
@@ -63,6 +64,11 @@ const Dashboard = () => {
                         isAdmin &&
                         <>
                             <li>
+                                <NavLink to="/dashboard/">
+                                    <FaUsers></FaUsers>
+                                    Dashboard</NavLink>
+                            </li>
+                            <li>
                                 <NavLink to="/dashboard/all-parcels">
                                     <FaUsers></FaUsers>
                                     All Parcels</NavLink>
@@ -94,6 +100,12 @@ const Dashboard = () => {
             {/* dashboard content */}
             <div className="flex-1 p-8">
                 <Outlet></Outlet>
+                {
+                    isAdmin &&
+                    <>
+                    <AdminStatistics></AdminStatistics>
+                    </>
+                }
             </div>
         </div>
     );
