@@ -1,10 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { FaTrashAlt, FaTruckPickup, FaUserCircle, FaUsers } from "react-icons/fa";
+import { FaTruckPickup, FaUserCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import Pagination from "../Pagination/Pagination";
 
 
 const AllUsers = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 5;
     const axiosSecure = useAxiosSecure();
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
@@ -14,37 +18,46 @@ const AllUsers = () => {
         }
     })
 
-    const handleMakeUser = user =>{
+    // Calculate pagination indices
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+
+    // Slice the users based on pagination indices
+    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const handleMakeUser = user => {
         axiosSecure.patch(`/users/admin/${user._id}`)
-        .then(res =>{
-            console.log(res.data)
-            if(res.data.modifiedCount > 0){
-                refetch();
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: `${user.name} is an Admin Now!`,
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-            }
-        })
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${user.name} is an Admin Now!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
     }
-    const handleMakeDeliverMen = user =>{
+    const handleMakeDeliverMen = user => {
         axiosSecure.patch(`/users/deliveryMen/${user._id}`)
-        .then(res =>{
-            console.log(res.data)
-            if(res.data.modifiedCount > 0){
-                refetch();
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: `${user.name} is an Deliver Now!`,
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-            }
-        })
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${user.name} is an Deliver Now!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
     }
 
     const handleDeleteUser = user => {
@@ -76,8 +89,7 @@ const AllUsers = () => {
 
     return (
         <div>
-            <div className="flex justify-evenly my-4">
-                <h2 className="text-3xl">All Users</h2>
+            <div className="flex my-4">
                 <h2 className="text-3xl">Total Users: {users.length}</h2>
             </div>
             <div className="overflow-x-auto">
@@ -94,33 +106,33 @@ const AllUsers = () => {
                     </thead>
                     <tbody>
                         {
-                            users.map((user, index) => <tr key={user._id}>
-                                <th>{index + 1}</th>
+                            currentUsers.map((user, index) => <tr key={user._id}>
+                                <th>{(currentPage - 1) * usersPerPage + index + 1}</th>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>
-                                    { user.role === 'admin' || user.role === 'deliverMen' ? user.role : <>
-                                    <button
-                                        onClick={() => handleMakeUser(user)}
-                                        className="btn btn-lg bg-red-500">
-                                        <FaUserCircle className="text-white 
+                                    {user.role === 'admin' || user.role === 'deliverMen' ? user.role : <>
+                                        <button
+                                            onClick={() => handleMakeUser(user)}
+                                            className="btn btn-lg bg-red-500">
+                                            <FaUserCircle className="text-white 
                                         text-2xl"></FaUserCircle>
-                                    </button>
-                                    <button
-                                        onClick={() => handleMakeDeliverMen(user)}
-                                        className="btn btn-lg bg-red-500">
-                                        <FaTruckPickup className="text-white 
+                                        </button>
+                                        <button
+                                            onClick={() => handleMakeDeliverMen(user)}
+                                            className="btn btn-lg bg-red-500">
+                                            <FaTruckPickup className="text-white 
                                         text-2xl"></FaTruckPickup>
-                                    </button>
+                                        </button>
 
                                     </>}
-                                
+
                                 </td>
                                 <td>
                                     <button
                                         onClick={() => handleDeleteUser(user)}
                                         className="btn btn-ghost btn-lg">
-                                        <FaTrashAlt className="text-red-600"></FaTrashAlt>
+                                        <p className="text-red-600">X</p>
                                     </button>
                                 </td>
                             </tr>)
@@ -128,7 +140,14 @@ const AllUsers = () => {
 
                     </tbody>
                 </table>
+                <Pagination
+                    totalUsers={users.length}
+                    usersPerPage={usersPerPage}
+                    currentPage={currentPage}
+                    paginate={paginate}
+                />
             </div>
+
         </div>
     );
 };
