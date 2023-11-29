@@ -5,19 +5,19 @@ import AddReview from "../../Home/Review/AddReview";
 import { Link } from "react-router-dom";
 
 const MyParcel = () => {
+    const { user } = useContext(AuthContext);
     const [cartItems, setCartItems] = useState([]);
     const [selectedParcel, setSelectedParcel] = useState(null);
-    const { user } = useContext(AuthContext);
+    const [filterStatus, setFilterStatus] = useState('');
+    const [originalCartItems, setOriginalCartItems] = useState([]);
 
     useEffect(() => {
-        const email = user ? user.email : ''; // Set email to an empty string if user is not logged in
+        const email = user ? user.email : '';
         if (email) {
-            // Fetch cart items for the logged-in user based on their email
-            // Make a GET request to your server's API endpoint that fetches the user's cart items
             fetch(`http://localhost:5000/parcel-by-email?email=${email}`)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data)
+                    setOriginalCartItems(data);
                     setCartItems(data);
                 })
                 .catch((error) => {
@@ -26,20 +26,51 @@ const MyParcel = () => {
         }
     }, [user]);
 
+    const filterByStatus = (status) => {
+        if (status === '') {
+            setCartItems(originalCartItems);
+        } else {
+            const filteredData = originalCartItems.filter((item) => item.status === status);
+            setCartItems(filteredData);
+        }
+    };
+
+    useEffect(() => {
+        filterByStatus(filterStatus);
+    }, [filterStatus, originalCartItems]);
+
 
     // Modal
     const openModal = (parcel) => {
-        setSelectedParcel(parcel); // Set the selected parcel when "Manage" is clicked
+        setSelectedParcel(parcel);
     };
 
     const closeModal = () => {
-        setSelectedParcel(null); // Reset selected parcel to close the modal
+        setSelectedParcel(null);
     };
+
+ 
 
 
     return (
         <div className="max-w-7xl mx-auto my-10 p-20 bg-[#f7f7f7]">
             <h1 className="text-4xl font-extrabold py-10">My Parcel</h1>
+            {/* Filter by status */}
+            <div className="mb-4">
+                <label htmlFor="statusFilter" className="mr-2">Filter by Status:</label>
+                <select
+                    id="statusFilter"
+                    className="border rounded py-1 px-2"
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                >
+                    <option value="">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="onTheWay">On The Way</option>
+                    {/* Add other status options as needed */}
+                </select>
+            </div>
             <div className="overflow-x-auto">
                 <table className="table">
                     {/* head */}
@@ -74,7 +105,7 @@ const MyParcel = () => {
                                     </td>
 
                                     <td>
-                                        <button onClick="" className="btn btn-ghost btn-xs text-red-500">X</button>
+                                        <button onClick={()=>handleCancel(item._id)} className="btn btn-ghost btn-xs text-red-500">Cancel</button>
                                         <Link to={`/dashboard/parcel/${item._id}`}>
                                         <button onClick="" className={`btn btn-ghost btn-xs text-red-500 ${item.status !== 'pending' && 'opacity-50 cursor-not-allowed'}`} disabled={item.status !== 'pending'}>
                                             Update

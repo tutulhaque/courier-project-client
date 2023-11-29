@@ -38,13 +38,13 @@ const UpdateParcel = () => {
         const latitude = form.longitude.value;
         const longitude = form.longitude.value;
         const price = form.price.value;
-        const updatedProduct = { userName: user.displayName, email: user.email, number, type, weight, receiversName, bookingDate: today.toISOString().split('T')[0], requestedDate, receiversNumber, deliveryAddress, latitude, longitude, price }
+        const updatedParcel = { userName: user.displayName, email: user.email, number, type, weight, receiversName, bookingDate: today.toISOString().split('T')[0], requestedDate, receiversNumber, deliveryAddress, latitude, longitude, price }
         fetch(`http://localhost:5000/parcel/${id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(updatedProduct)
+            body: JSON.stringify(updatedParcel)
         })
             .then(res => res.json())
             .then(data => {
