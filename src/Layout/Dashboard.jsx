@@ -29,11 +29,6 @@ const Dashboard = () => {
                     {
                         isUser && <>
                             <li>
-                                <NavLink to="/dashboard/">
-                                    <FaHome></FaHome>
-                                    Admin Home</NavLink>
-                            </li>
-                            <li>
                                 <NavLink to="/dashboard/add-parcel">
                                     <FaUtensils></FaUtensils>
                                     Book A Parcel</NavLink>

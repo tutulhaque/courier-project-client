@@ -17,6 +17,7 @@ import DeliveryList from "../pages/Home/DeliveryMen/DeliveryList/DeliveryList";
 import ReviewList from "../pages/Home/DeliveryMen/ReviewList/ReviewList";
 import UpdateParcel from "../pages/Parcel/UpdateParcel/UpdateParcel";
 import Error from "../pages/Error/Error";
+import UpdateUser from "../pages/Dashboard/UpdateUser/UpdateUser";
 
 
 
@@ -80,6 +81,11 @@ import Error from "../pages/Error/Error";
         {
           path: 'users',
           element: <PrivateRoute><AllUsers></AllUsers></PrivateRoute>
+        },
+        {
+          path: "user/:id",
+          element: <UpdateUser></UpdateUser>,
+          // loader: ({params})=>fetch(`http://localhost:5000/user/${params.id}`)
         },
         {
           path: 'allDeliverMen',

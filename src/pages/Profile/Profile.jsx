@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
+
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="relative flex flex-col text-gray-700 bg-white shadow-md w-96 rounded-xl bg-clip-border">
@@ -18,7 +20,12 @@ const Profile = () => {
             {user.email}
           </p>
           <Link to=""></Link>
-          <Link to={`/user/${user._id}`}><button>Update</button></Link>
+          <Link to={`/dashboard/user/${''}`}>
+            <button className="btn btn-neutral">
+              Update
+            </button>
+          </Link>
+
         </div>
       </div>
 

@@ -7,9 +7,11 @@ import ManageButtonModal from "../../Dashboard/Modal/ManageButtonModal";
 const AllParcel = () => {
     const [parcels, setParcels] = useState([]);
     const [selectedParcel, setSelectedParcel] = useState(null);
+    const [initialParcels, setInitialParcels] = useState([]);
     const { user } = useContext(AuthContext);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    console.log(startDate,endDate)
 
 
     useEffect(() => {
@@ -25,6 +27,11 @@ const AllParcel = () => {
                 });
         }
     }, [user]);
+
+    useEffect(() => {
+        setInitialParcels(parcels); // Store initial data when parcels change
+    }, [parcels]);
+
 
     const handleSearch = () => {
         const formattedStartDate = startDate ? new Date(startDate).toISOString() : '';
@@ -42,6 +49,26 @@ const AllParcel = () => {
                 console.error(error);
             });
     };
+
+    const filterParcels = () => {
+        const formattedStartDate = startDate ? new Date(startDate).toISOString() : '';
+        const formattedEndDate = endDate ? new Date(endDate).toISOString() : '';
+
+        const filteredData = initialParcels.filter((item) => {
+            const requestedDate = new Date(item.requestedDate);
+
+            return (
+                (!formattedStartDate || requestedDate >= new Date(formattedStartDate)) &&
+                (!formattedEndDate || requestedDate <= new Date(formattedEndDate))
+            );
+        });
+
+        setParcels(filteredData);
+    };
+
+    useEffect(() => {
+        filterParcels(); // Apply filtering when start/end date change
+    }, [startDate, endDate]);
     
     
     
@@ -59,18 +86,20 @@ const AllParcel = () => {
         <div className="max-w-7xl mx-auto p-10 bg-[#f7f7f7]">
             <div>
                 <h1 className="text-4xl font-extrabold py-10">All Booked Parcel</h1>
-                <div>
+                <div className="flex">
                     <input
+                        className="input input-bordered w-1/2"
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
                     />
                     <input
+                        className="input input-bordered w-1/2"
                         type="date"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
                     />
-                    <button onClick={handleSearch}>Search</button>
+                    {/* <button className="btn btn-neutral" onClick={handleSearch}></button> */}
                 </div>
             </div>
 
