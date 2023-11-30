@@ -99,7 +99,8 @@ const AllUsers = () => {
                         <tr>
                             <th></th>
                             <th>Name</th>
-                            <th>Email</th>
+                            <th>Number</th>
+                            <th>parcel Booked</th>
                             <th>Role</th>
                             <th>Action</th>
                         </tr>
@@ -109,7 +110,8 @@ const AllUsers = () => {
                             currentUsers.map((user, index) => <tr key={user._id}>
                                 <th>{(currentPage - 1) * usersPerPage + index + 1}</th>
                                 <td>{user.name}</td>
-                                <td>{user.email}</td>
+                                <td>{user.number ? user.number : '+880 111-111'}</td>
+                                <td>{user.count? user.count : 0}</td>
                                 <td>
                                     {user.role === 'admin' || user.role === 'deliverMen' ? user.role : <>
                                         <button

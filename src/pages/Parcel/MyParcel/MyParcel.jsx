@@ -152,6 +152,9 @@ const MyParcel = () => {
                                         <button onClick="" className={`btn btn-ghost btn-xs text-red-500 ${item.status !== 'pending' && 'opacity-50 cursor-not-allowed'}`} disabled={item.status !== 'pending'}>
                                             Update
                                         </button>
+                                        <button onClick="" className={`btn btn-ghost btn-xs text-red-500 ${item.status !== 'pending' && 'opacity-50 cursor-not-allowed'}`} disabled={item.status !== 'pending'}>
+                                            Pay
+                                        </button>
                                         </Link>
                                     </td>
                                 </tr>

@@ -88,7 +88,8 @@ const AllDeliveryMen = () => {
                             <th></th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Role</th>
+                            <th>Parcel Delivered</th>
+                            <th>Average Review</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -100,28 +101,13 @@ const AllDeliveryMen = () => {
                                 <th>{index + 1}</th>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
-                                <td>
-                                { user.role === 'admin' || user.role === 'deliverMen' ? user.role : <>
-                                    <button
-                                        onClick={() => handleMakeUser(user)}
-                                        className="btn btn-lg bg-red-500">
-                                        <FaUserCircle className="text-white 
-                                        text-2xl"></FaUserCircle>
-                                    </button>
-                                    <button
-                                        onClick={() => handleMakeDeliverMen(user)}
-                                        className="btn btn-lg bg-red-500">
-                                        <FaTruckPickup className="text-white 
-                                        text-2xl"></FaTruckPickup>
-                                    </button>
-
-                                    </>}
-                                </td>
+                                <td>{user.count}</td>
+                                <td>{user?.reviews}</td>
                                 <td>
                                     <button
                                         onClick={() => handleDeleteUser(user)}
                                         className="btn btn-ghost btn-lg">
-                                        <FaTrashAlt className="text-red-600"></FaTrashAlt>
+                                        <p className="text-red-600">X</p>
                                     </button>
                                 </td>
                             </tr>)

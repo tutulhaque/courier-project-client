@@ -32,7 +32,7 @@ const SocialLogin = () => {
             <div>
                 <button onClick={handleGoogleSignIn} className="btn">
                     <FaGoogle className="mr-2"></FaGoogle>
-                    Google
+                    Login With Google
                 </button>
             </div>
         </div>

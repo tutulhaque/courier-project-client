@@ -55,7 +55,7 @@ const UpdateParcel = () => {
                         icon: 'success',
                         confirmButtonText: 'Close'
                     })
-                    navigate('/');
+                    navigate('/dashboard/my-parcel');
                 }
 
             })

@@ -26,7 +26,7 @@ const Dashboard = () => {
                     <p className="text-white">{user.displayName}</p>
                 </div>
 
-                <ul className="menu p-4">
+                <ul className="menu p-4 text-white text-lg">
                     {
                         isUser && <>
                             <li>
@@ -64,7 +64,7 @@ const Dashboard = () => {
                         isAdmin &&
                         <>
                             <li>
-                                <NavLink to="/dashboard/">
+                                <NavLink to="/dashboard/adminDashboard/">
                                     <FaUsers></FaUsers>
                                     Dashboard</NavLink>
                             </li>
@@ -100,12 +100,6 @@ const Dashboard = () => {
             {/* dashboard content */}
             <div className="flex-1 p-8">
                 <Outlet></Outlet>
-                {
-                    isAdmin &&
-                    <>
-                    <AdminStatistics></AdminStatistics>
-                    </>
-                }
             </div>
         </div>
     );

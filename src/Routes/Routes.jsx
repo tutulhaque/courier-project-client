@@ -18,6 +18,7 @@ import ReviewList from "../pages/Home/DeliveryMen/ReviewList/ReviewList";
 import UpdateParcel from "../pages/Parcel/UpdateParcel/UpdateParcel";
 import Error from "../pages/Error/Error";
 import UpdateUser from "../pages/Dashboard/UpdateUser/UpdateUser";
+import AdminStatistics from "../pages/Dashboard/Statistics/AdminStatistics";
 
 
 
@@ -49,6 +50,10 @@ import UpdateUser from "../pages/Dashboard/UpdateUser/UpdateUser";
         {
           path: 'add-parcel',
           element: <PrivateRoute><AddParcel></AddParcel></PrivateRoute>
+        },
+        {
+          path: 'adminDashboard',
+          element: <PrivateRoute><AdminStatistics></AdminStatistics></PrivateRoute>
         },
         {
           path: 'my-parcel',

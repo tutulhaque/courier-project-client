@@ -76,13 +76,14 @@ const DeliveryList = () => {
                     <thead>
                         <tr>
                             <th>Delivery Men ID</th>
-                            <th>Parcel type</th>
+                            <th>Booked User’s Name</th>
+                            <th>Receivers Name</th>
+                            <th>Booked User’s Phone</th>
                             <th>Requested Delivery Date</th>
                             <th>Approximate Delivery Date</th>
-                            <th>Booking Date</th>
-                            <th>Booking Status</th>
+                            <th>Receivers phone number</th>
+                            <th>Receivers Address</th>
                             <th>Action</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,10 +94,13 @@ const DeliveryList = () => {
                                 .map(item =>
                                     <tr key={item?._id}>
                                         <td>{item?._id}</td>
-                                        <td>{item?.type}</td>
+                                        <td>{item?.userName}</td>
+                                        <td>{item?.receiversName}</td>
+                                        <td>{item?.number}</td>
                                         <td>{item?.requestedDate}</td>
                                         <td>{item?.approximateDeliveryDate}</td>
-                                        <td>{item?.bookingDate}</td>
+                                        <td>{item?.receiversNumber}</td>
+                                        <td>{item?.deliveryAddress}</td>
                                         <td>
                                             <button
                                                 onClick={() => openModal(item)}
@@ -105,10 +109,6 @@ const DeliveryList = () => {
                                             >
                                                 {item?.status}
                                             </button>
-                                        </td>
-
-                                        <td>
-                                            <button onClick={() => handleDelete(item?._id)} className="btn btn-ghost btn-xs text-red-500">X</button>
                                         </td>
                                     </tr>
                                 )
